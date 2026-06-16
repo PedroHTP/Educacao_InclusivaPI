@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IA e Educação Inclusiva</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" id="inicio">
+      <nav class="topbar" aria-label="Navegação principal">
+        <a class="brand" href="#inicio">IA + Inclusão</a>
+        <div class="nav-links">
+          <a href="#trilha">Trilha</a>
+          <a href="#glossario">Glossário</a>
+          <a href="#ferramentas">Ferramentas</a>
+          <a href="#recursos">Recursos</a>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Educação inclusiva com tecnologia responsável</p>
+          <h1>IA e Educação Inclusiva</h1>
+          <p>
+            Um guia visual baseado no Padlet "IA e Inclusão": barreiras, conceitos,
+            aplicações, riscos e caminhos práticos para usar inteligência artificial
+            sem perder o foco em acesso, participação e aprendizagem.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#trilha">Explorar trilha</a>
+            <a class="button secondary" href="https://padlet.com/gustavocostatech/ia-e-inclusao-4u4hw93o1xvzntek" target="_blank" rel="noreferrer">Ver Padlet original</a>
+          </div>
+        </div>
+        <figure class="hero-media">
+          <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZWR1Y2ElQzMlQTclQzMlQTNvJTIwaW5jbHVzaXZhfGVufDB8fDB8fHww" alt="Prévia visual do Padlet IA e Inclusão" />
+        </figure>
+      </section>
+    </header>
+
+    <main>
+      <section class="intro section">
+        <div>
+          <p class="section-kicker">Objetivo</p>
+          <h2>Entender antes de aplicar</h2>
+        </div>
+        <p>
+          A trilha organiza o tema em quatro movimentos: enxergar as barreiras,
+          compreender o potencial da IA, reconhecer os riscos e planejar uma
+          implementação responsável.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="painel-title">
+        <div class="section-heading">
+          <p class="section-kicker">Painel interativo</p>
+          <h2 id="painel-title">Explore os conteúdos</h2>
+        </div>
+
+        <div class="controls" aria-label="Filtros dos conteúdos">
+          <label class="search">
+            <span>Buscar</span>
+            <input id="searchInput" type="search" placeholder="Digite um termo, exemplo: LBI, chatbot, equidade" />
+          </label>
+          <div class="filter-buttons" id="filterButtons">
+            <button class="chip active" type="button" data-filter="todos">Todos</button>
+            <button class="chip" type="button" data-filter="conceito">Conceitos</button>
+            <button class="chip" type="button" data-filter="trilha">Trilha</button>
+            <button class="chip" type="button" data-filter="aplicacao">Aplicações</button>
+            <button class="chip" type="button" data-filter="recurso">Recursos</button>
+          </div>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="section split" id="trilha">
+        <div class="section-heading">
+          <p class="section-kicker">Trilha</p>
+          <h2>Da barreira à ação</h2>
+        </div>
+        <div class="timeline">
+          <article>
+            <span>1</span>
+            <h3>Barreiras escolares</h3>
+            <p>Falta de acessibilidade, baixa adaptação, formação docente insuficiente, desigualdade tecnológica e currículos distantes da realidade.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h3>Portas reais da IA</h3>
+            <p>Habilidades sociais, personalização da aprendizagem, ambientes virtuais adaptativos e chatbots com linguagem acessível.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h3>Aplicações concretas</h3>
+            <p>CapacitaBOT, LEAF e modelos de apoio a estratégias docentes no TEA mostram usos possíveis quando há intenção inclusiva.</p>
+          </article>
+          <article>
+            <span>4</span>
+            <h3>Responsabilidade</h3>
+            <p>Projetar com pessoas impactadas, garantir acessibilidade desde o início e treinar educadores antes da adoção.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section glossary" id="glossario">
+        <div class="section-heading">
+          <p class="section-kicker">Glossário relâmpago</p>
+          <h2>Quatro ideias-chave</h2>
+        </div>
+        <dl>
+          <div>
+            <dt>Educação Inclusiva</dt>
+            <dd>Garante acesso, permanência, participação e aprendizagem de todos os estudantes, removendo barreiras ao aprender.</dd>
+          </div>
+          <div>
+            <dt>Equidade</dt>
+            <dd>Reconhece que estudantes partem de lugares diferentes e precisam de apoios distintos para alcançar oportunidades justas.</dd>
+          </div>
+          <div>
+            <dt>Inteligência Artificial</dt>
+            <dd>Tecnologias capazes de analisar dados, aprender padrões, gerar respostas e adaptar conteúdos.</dd>
+          </div>
+          <div>
+            <dt>LBI</dt>
+            <dd>Lei Brasileira de Inclusão, que assegura educação inclusiva, acessibilidade, atendimento especializado e eliminação de barreiras.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="section" id="ferramentas">
+        <div class="section-heading">
+          <p class="section-kicker">Aplicações</p>
+          <h2>Como a IA pode apoiar</h2>
+        </div>
+        <div class="support-grid">
+          <article>
+            <h3>Estudantes</h3>
+            <ul>
+              <li>Leitura personalizada para dislexia.</li>
+              <li>Tutoria adaptativa no ritmo de cada pessoa.</li>
+              <li>Assistência para comunicação e habilidades sociais.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Professores</h3>
+            <ul>
+              <li>Planos de aula diferenciados.</li>
+              <li>Simulações para treinar práticas inclusivas.</li>
+              <li>Apoio na implementação de planos individualizados.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Famílias</h3>
+            <ul>
+              <li>Tradução e simplificação de documentos complexos.</li>
+              <li>Chatbots para orientar processos de educação especial.</li>
+              <li>Suporte contínuo para dúvidas frequentes.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section checklist">
+        <div class="section-heading">
+          <p class="section-kicker">Checklist</p>
+          <h2>Antes de implementar</h2>
+        </div>
+        <div class="checklist-items">
+          <label><input type="checkbox" /> Incluir pessoas com diferenças de aprendizagem no design.</label>
+          <label><input type="checkbox" /> Compensar participantes pelo conhecimento compartilhado.</label>
+          <label><input type="checkbox" /> Garantir acessibilidade desde o início.</label>
+          <label><input type="checkbox" /> Treinar professores adequadamente.</label>
+        </div>
+      </section>
+
+      <section class="section resources" id="recursos">
+        <div class="section-heading">
+          <p class="section-kicker">Recursos</p>
+          <h2>Materiais citados</h2>
+        </div>
+        <div class="resource-list">
+          <a href="https://www.youtube.com/live/KM-PYmsDxH4?si=uO4JLQd7yCTHA8PU" target="_blank" rel="noreferrer">Palestra sobre Desenho Universal para a Aprendizagem</a>
+          <a href="https://www.youtube.com/watch?v=Dd5S5fCxMV8&list=PL0g5FWk3FEqi7bTNKAkV-AD0jDbXJSqOg&index=1" target="_blank" rel="noreferrer">Trilha IA-900 - Fundamentos de IA no Azure</a>
+          <a href="https://www.youtube.com/watch?v=cvheVmyWmtg" target="_blank" rel="noreferrer">Cutscene Educação Inclusiva</a>
+          <a href="https://padlet.com/gustavocostatech/ia-e-inclusao-4u4hw93o1xvzntek" target="_blank" rel="noreferrer">Padlet original: IA e Inclusão</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Site estático criado a partir das informações públicas do Padlet "IA e Inclusão".</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
