@@ -164,14 +164,32 @@ const typeLabels = {
   recurso: "Recurso",
 };
 
+function contentSlug(item) {
+  return item.title
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function getDetailUrl(item) {
+  return `detalhe.html?conteudo=${encodeURIComponent(contentSlug(item))}`;
+}
+
+window.siteContents = contents;
+window.typeLabels = typeLabels;
+window.contentSlug = contentSlug;
+
 const cardsGrid = document.querySelector("#cardsGrid");
 const searchInput = document.querySelector("#searchInput");
 const filterButtons = document.querySelector("#filterButtons");
 let activeFilter = "todos";
 
 function createCard(item) {
-  const article = document.createElement("article");
+  const article = document.createElement("a");
   article.className = "info-card";
+  article.href = getDetailUrl(item);
 
   const badge = document.createElement("span");
   badge.className = `card-type ${item.type}`;
@@ -185,14 +203,10 @@ function createCard(item) {
 
   article.append(badge, title, text);
 
-  if (item.link) {
-    const link = document.createElement("a");
-    link.href = item.link;
-    link.target = "_blank";
-    link.rel = "noreferrer";
-    link.textContent = "Abrir recurso";
-    article.append(link);
-  }
+  const details = document.createElement("span");
+  details.className = "card-link";
+  details.textContent = "Ver detalhes";
+  article.append(details);
 
   return article;
 }
@@ -218,16 +232,18 @@ function renderCards() {
   filtered.forEach((item) => cardsGrid.append(createCard(item)));
 }
 
-filterButtons.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-filter]");
-  if (!button) return;
+if (cardsGrid && searchInput && filterButtons) {
+  filterButtons.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-filter]");
+    if (!button) return;
 
-  activeFilter = button.dataset.filter;
-  filterButtons.querySelectorAll(".chip").forEach((chip) => {
-    chip.classList.toggle("active", chip === button);
+    activeFilter = button.dataset.filter;
+    filterButtons.querySelectorAll(".chip").forEach((chip) => {
+      chip.classList.toggle("active", chip === button);
+    });
+    renderCards();
   });
-  renderCards();
-});
 
-searchInput.addEventListener("input", renderCards);
-renderCards();
+  searchInput.addEventListener("input", renderCards);
+  renderCards();
+}
