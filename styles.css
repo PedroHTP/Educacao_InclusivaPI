@@ -145,17 +145,12 @@ img {
 }
 
 .hero-media {
-  border: 1px solid rgba(20, 32, 27, 0.12);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
   margin: 0;
-  overflow: hidden;
 }
 
 .hero-media img {
-  aspect-ratio: 16 / 10;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   width: 100%;
 }
 
@@ -368,7 +363,8 @@ img {
   gap: 10px;
 }
 
-.related-list a {
+.related-list a,
+.source-list a {
   background: var(--surface-soft);
   border: 1px solid rgba(17, 107, 91, 0.16);
   border-radius: 8px;
@@ -376,6 +372,16 @@ img {
   font-weight: 800;
   padding: 12px 14px;
   text-decoration: none;
+}
+
+.source-list {
+  display: grid;
+  gap: 10px;
+}
+
+.source-list a {
+  background: #f8faf7;
+  color: var(--blue);
 }
 
 .empty-detail {
