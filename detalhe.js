@@ -2,399 +2,772 @@ const detailPanel = document.querySelector("#detailPanel");
 const params = new URLSearchParams(window.location.search);
 const selectedSlug = params.get("conteudo");
 
-const detailGuides = {
-  conceito: [
-    "Use este conceito como referência rápida para interpretar os demais materiais da trilha.",
-    "Ao aplicar em sala, observe quais barreiras precisam ser removidas antes de escolher uma ferramenta.",
-    "Relacione o conceito com acessibilidade, participação e aprendizagem, não apenas com presença física na escola.",
-  ],
-  trilha: [
-    "Leia esta etapa como parte de uma sequência: diagnóstico, possibilidades, aplicações e responsabilidade.",
-    "Transforme a ideia central em uma pergunta para discussão com estudantes, professores ou equipe pedagógica.",
-    "Registre quais decisões práticas a escola precisaria tomar para avançar para a próxima etapa.",
-  ],
-  aplicacao: [
-    "Use este item para pensar em ações concretas que apoiem estudantes, professores e famílias.",
-    "Antes de adotar uma ferramenta, verifique acessibilidade, privacidade, supervisão humana e contexto de uso.",
-    "Prefira pilotos pequenos, com acompanhamento docente e feedback das pessoas impactadas.",
-  ],
-  recurso: [
-    "Abra o recurso original para assistir, ouvir ou consultar o material completo.",
-    "Use o resumo abaixo para decidir como o material se conecta à trilha principal.",
-    "Depois de acessar o recurso, volte ao painel para comparar com outros conteúdos relacionados.",
-  ],
-};
-
-const commonSources = [
-  {
-    title: "Padlet original: IA e Inclusão",
-    url: "https://padlet.com/gustavocostatech/ia-e-inclusao-4u4hw93o1xvzntek",
+const sources = {
+  stanford: {
+    title: "McGee, N. J.; Kozleski, E.; Lemons, C. J.; Hau, I. C. (2025). AI + Learning Differences: Designing a Future with No Boundaries.",
+    url: "./Static/Documentos/AI-Learning-Differences-Designing-a-Future-with-No-Boundaries_Final.pdf",
   },
-  {
-    title: "Padlet trabalho PI",
-    url: "https://padlet.com/maryvitoria054/trabalho-pi-hxlfdcfmyq779qko",
+  k12: {
+    title: "Lee, H.; Kim, H.; Yan, W. (2025). Promovendo IA e tecnologia inclusivas na educação K-12.",
+    url: "./Static/Documentos/Promovendo%20IA%20e%20tecnologia%20inclusivas%20na%20educa%C3%A7%C3%A3o%20b%C3%A1sica%20(K-12)%20Uma%20revis%C3%A3o%20do%20contexto,%20estrat%C3%A9gias%20de%20ensino%20e%20resultados%20de%20aprendizagem.pdf",
   },
-  {
-    title: "UNESCO: Guidance for generative AI in education and research",
-    url: "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=67098",
-  },
-  {
-    title: "CAST: Universal Design for Learning Guidelines",
-    url: "https://udlguidelines.cast.org/",
-  },
-  {
-    title: "Lei Brasileira de Inclusão - Lei nº 13.146/2015",
-    url: "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm",
-  },
-  {
-    title: "Promoting inclusive AI and technology in K-12 education",
-    url: "https://www.sciencedirect.com/science/article/pii/S2666920X25001183",
-  },
-  {
-    title: "Challenges and opportunities of AI in inclusive education: LEAF",
-    url: "https://link.springer.com/article/10.1186/s40561-023-00286-2",
-  },
-  {
-    title: "Microsoft: Immersive Reader research and case studies",
-    url: "https://learn.microsoft.com/en-us/training/educator-center/product-guides/immersive-reader/research",
-  },
-];
-
-const detailContent = {
-  "objetivos-do-padlet": {
-    padlet: [
-      "O Padlet IA e Inclusão organiza a aprendizagem como trilha: começa pelo problema, avança para o potencial da IA, examina riscos e fecha com aplicação responsável.",
-      "O segundo Padlet, trabalho PI, complementa essa proposta em formato whiteboard, com percurso visual, objetivos em vídeo, podcast e materiais multimídia.",
-    ],
-    research: [
-      "A revisão sobre IA inclusiva no K-12 defende que iniciativas de IA precisam ser planejadas com identidade, acesso tecnológico, design participativo, tarefas abertas e senso de pertencimento.",
-      "A orientação da UNESCO reforça que IA na educação exige visão centrada nas pessoas, validação pedagógica, proteção de dados e preparação institucional.",
-    ],
-    questions: [
-      "Qual barreira concreta a trilha quer enfrentar primeiro?",
-      "Quem precisa participar da decisão sobre o uso da IA?",
-      "Como a escola vai saber se a ferramenta ampliou participação e aprendizagem?",
-    ],
-    sources: [commonSources[0], commonSources[1], commonSources[2], commonSources[5]],
-  },
-  "a-ia-aproxima-ou-afasta-a-educacao-inclusiva": {
-    padlet: [
-      "O Padlet formula a tensão central: a IA já está em plataformas, aplicativos, chatbots e sistemas de apoio. A pergunta não é se ela estará presente, mas de que forma será usada.",
-      "A trilha alerta que, sem intenção inclusiva, a IA pode reforçar desigualdades e criar novas barreiras.",
-    ],
-    research: [
-      "A UNESCO aponta riscos de privacidade, agência, inclusão, equidade, diversidade linguística e cultural quando ferramentas generativas são adotadas sem regulação e validação educacional.",
-      "A revisão K-12 mostra que acesso desigual, baixo alinhamento curricular e pouca documentação de resultados ainda são lacunas frequentes nas experiências com IA educacional.",
-    ],
-    questions: [
-      "A ferramenta resolve uma barreira real ou apenas adiciona tecnologia?",
-      "Os estudantes com deficiência conseguem usar a solução com autonomia?",
-      "Há supervisão humana e critérios claros de uso?",
-    ],
-    sources: [commonSources[0], commonSources[2], commonSources[5]],
-  },
-  "glossario-relampago-i": {
-    padlet: [
-      "Educação Inclusiva, no Padlet, significa garantir acesso, permanência, participação e aprendizagem para todos, respeitando diferenças físicas, sensoriais, intelectuais, sociais e culturais.",
-      "Equidade aparece como o princípio de oferecer apoios diferentes para alcançar oportunidades e resultados justos, em vez de tratar todas as pessoas da mesma forma.",
-    ],
-    research: [
-      "O DUA, segundo CAST, orienta o desenho de experiências com múltiplas formas de engajamento, representação, ação e expressão, reduzindo barreiras desde o planejamento.",
-      "A revisão K-12 relaciona inclusão com currículo relevante para a vida dos estudantes, colaboração, multimodalidade e participação ativa no desenho das atividades.",
-    ],
-    questions: [
-      "Que barreiras de acesso, participação e aprendizagem aparecem nessa turma?",
-      "Que apoios diferentes são necessários para oportunidades mais justas?",
-      "O planejamento oferece mais de uma forma de aprender e demonstrar conhecimento?",
-    ],
-    sources: [commonSources[0], commonSources[3], commonSources[5]],
-  },
-  "glossario-relampago-ii": {
-    padlet: [
-      "O Padlet define IA como tecnologias capazes de analisar dados, aprender padrões, gerar respostas e adaptar conteúdos.",
-      "A LBI é apresentada como marco legal que assegura educação inclusiva, acessibilidade, atendimento educacional especializado e eliminação de barreiras.",
-    ],
-    research: [
-      "A LBI estabelece o direito da pessoa com deficiência a sistema educacional inclusivo em todos os níveis, com aprendizagem ao longo da vida.",
-      "A UNESCO recomenda que o uso de IA seja pedagogicamente validado e adequado à idade, com atenção à segurança, equidade e proteção de dados.",
-    ],
-    questions: [
-      "A tecnologia escolhida cumpre uma função pedagógica clara?",
-      "Ela remove barreiras ou cria dependência e exclusão?",
-      "Há acessibilidade, transparência e proteção de dados suficientes?",
-    ],
-    sources: [commonSources[0], commonSources[2], commonSources[4]],
-  },
-  "estacao-1": {
-    padlet: [
-      "A pergunta da Estação 1 é: que barreiras existem no cotidiano escolar?",
-      "O Padlet lista barreiras como falta de acessibilidade em materiais e ferramentas, baixa adaptação, formação docente insuficiente, desigualdade de acesso à tecnologia e currículos pouco conectados à realidade dos estudantes.",
-    ],
-    research: [
-      "A LBI destaca acesso, permanência, participação e aprendizagem por meio de recursos de acessibilidade que eliminem barreiras.",
-      "A revisão K-12 indica que o acesso tecnológico e a relevância cultural do currículo são condições centrais para ampliar participação em IA e tecnologia.",
-    ],
-    questions: [
-      "A barreira é física, comunicacional, curricular, tecnológica ou atitudinal?",
-      "Quem está ficando sem participação efetiva?",
-      "Que evidência mostra que a barreira foi reduzida?",
-    ],
-    sources: [commonSources[0], commonSources[4], commonSources[5]],
-  },
-  "estacao-2": {
-    padlet: [
-      "A Estação 2 pergunta quais portas da IA são reais, não apenas promessa.",
-      "O Padlet destaca quatro portas: habilidades sociais e interação, personalização da aprendizagem, ambientes virtuais de aprendizagem e chatbots com linguagem acessível.",
-    ],
-    research: [
-      "O estudo sobre LEAF descreve ambiente de leitura com BookRoll e painéis de learning analytics para apoiar acompanhamento, anotações, marcações e visualização de dados de aprendizagem.",
-      "O DUA ajuda a avaliar essas portas: ferramentas inclusivas precisam oferecer múltiplas formas de percepção, linguagem, interação, expressão e apoio à autonomia.",
-    ],
-    questions: [
-      "A porta escolhida responde a uma necessidade específica ou é apenas novidade?",
-      "A personalização respeita ritmo, comunicação e autonomia do estudante?",
-      "O professor consegue interpretar e agir sobre os dados gerados?",
-    ],
-    sources: [commonSources[0], commonSources[3], commonSources[6]],
-  },
-  "estacao-3": {
-    padlet: [
-      "A Estação 3 apresenta exemplos concretos: CapacitaBOT para habilidades sociais, LEAF para e-learning com análise de evidências e IA apoiando estratégias docentes no TEA.",
-      "A ideia é usar exemplos para imaginar aplicações inclusivas que tenham intenção pedagógica, não apenas automação.",
-    ],
-    research: [
-      "O artigo sobre LEAF mostra como dados de leitura, marcações, anotações e tempo de interação podem apoiar acompanhamento em ambientes inclusivos.",
-      "A revisão K-12 associa projetos centrados no estudante, colaboração e multimodalidade a ganhos cognitivos, afetivos e sociais, embora alerte para a necessidade de medir resultados com mais rigor.",
-    ],
-    questions: [
-      "Qual exemplo se aproxima mais da realidade da escola?",
-      "Que adaptação seria necessária para deficiência, TEA, dislexia ou outra necessidade específica?",
-      "Como medir participação, aprendizagem e bem-estar depois da implementação?",
-    ],
-    sources: [commonSources[0], commonSources[5], commonSources[6]],
+  personalizacao: {
+    title: "Santos, S. M. A. V. et al. (2024). A arte da personalização do ensino: a Inteligência Artificial nos palcos da educação especial.",
+    url: "./Static/Documentos/artigo.pdf",
   },
   lbi: {
-    padlet: [
-      "O Padlet pergunta o que a LBI garante quando falamos de educação inclusiva.",
-      "A resposta sintetizada é que a escola deve assegurar condições reais para que estudantes desenvolvam talentos e habilidades segundo suas características e necessidades.",
-    ],
-    research: [
-      "O Art. 27 da LBI afirma a educação como direito da pessoa com deficiência em sistema inclusivo, em todos os níveis, com aprendizagem ao longo da vida.",
-      "O Art. 28 reforça a necessidade de serviços e recursos de acessibilidade para eliminar barreiras e promover inclusão plena.",
-    ],
-    questions: [
-      "A prática proposta garante permanência, participação e aprendizagem?",
-      "Quais recursos de acessibilidade precisam existir desde o início?",
-      "A família, a comunidade escolar e o estudante foram ouvidos?",
-    ],
-    sources: [commonSources[0], commonSources[4]],
+    title: "Brasil. Lei Brasileira de Inclusão da Pessoa com Deficiência, Lei nº 13.146/2015.",
+    url: "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm",
   },
-  "visao-geral": {
-    padlet: [
-      "O Padlet resume que duas pesquisas exploram o uso inclusivo da IA na educação, especialmente para estudantes com diferenças de aprendizagem.",
-      "Os materiais citados conectam desenho de futuro sem barreiras, IA inclusiva no K-12 e aplicações práticas em leitura, tutoria e suporte docente.",
+  unesco: {
+    title: "UNESCO. Guidance for generative AI in education and research.",
+    url: "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=67098",
+  },
+  cast: {
+    title: "CAST. Universal Design for Learning Guidelines.",
+    url: "https://udlguidelines.cast.org/",
+  },
+  leaf: {
+    title: "Challenges and opportunities of AI in inclusive education: LEAF.",
+    url: "https://link.springer.com/article/10.1186/s40561-023-00286-2",
+  },
+  reader: {
+    title: "Microsoft. Immersive Reader research and case studies.",
+    url: "https://learn.microsoft.com/en-us/training/educator-center/product-guides/immersive-reader/research",
+  },
+};
+
+const defaultByType = {
+  conceito: {
+    sections: [
+      {
+        title: "O que significa",
+        paragraphs: [
+          {
+            text: "Este conceito ajuda a separar promessa tecnológica de inclusão real. Uma prática inclusiva precisa remover barreiras de acesso, linguagem, participação, currículo e avaliação; só depois a IA entra como possível apoio.",
+            refs: ["k12", "lbi"],
+          },
+        ],
+      },
+      {
+        title: "Como aplicar",
+        paragraphs: [
+          {
+            text: "Use o conceito como pergunta de planejamento: quem fica de fora se a aula for feita desse jeito? Que apoio precisa existir para que estudantes diferentes participem com autonomia e aprendam de fato?",
+            refs: ["cast", "personalizacao"],
+          },
+        ],
+      },
     ],
-    research: [
-      "A revisão K-12 analisou 17 estudos empíricos publicados entre 2013 e 2024 e identificou princípios de identidade, tecnologia, design, desenvolvimento de conteúdo e pertencimento.",
-      "O relatório AI + Learning Differences, citado no Padlet, reforça o desenho de soluções com foco em diferenças de aprendizagem e participação desde o início.",
+  },
+  trilha: {
+    sections: [
+      {
+        title: "Por onde começar",
+        paragraphs: [
+          {
+            text: "A melhor sequência é simples: identificar barreiras, escolher uma necessidade concreta, testar uma estratégia pequena, observar resultados e ajustar com participação de quem será afetado.",
+            refs: ["stanford", "k12"],
+          },
+        ],
+      },
+      {
+        title: "O que observar",
+        paragraphs: [
+          {
+            text: "Não avalie apenas se a ferramenta parece moderna. Observe se ela melhora acesso, participação, confiança, colaboração, compreensão do conteúdo e autonomia do estudante.",
+            refs: ["k12"],
+          },
+        ],
+      },
     ],
-    questions: [
-      "Que achados da pesquisa podem virar uma prática da escola?",
-      "Quais evidências ainda faltam antes de adotar uma solução?",
-      "A proposta melhora acesso, autonomia e aprendizagem ao mesmo tempo?",
+  },
+  aplicacao: {
+    sections: [
+      {
+        title: "Quando faz sentido",
+        paragraphs: [
+          {
+            text: "A IA faz mais sentido quando reduz uma dificuldade concreta: adaptar leitura, dar feedback, organizar informação, apoiar comunicação, sugerir caminhos de estudo ou ajudar o professor a diferenciar atividades.",
+            refs: ["personalizacao", "stanford"],
+          },
+        ],
+      },
+      {
+        title: "Limites",
+        paragraphs: [
+          {
+            text: "A ferramenta não substitui professor, família, equipe pedagógica ou atendimento especializado. Ela precisa ser supervisionada, explicável, acessível e coerente com o objetivo de aprendizagem.",
+            refs: ["personalizacao", "unesco"],
+          },
+        ],
+      },
     ],
-    sources: [commonSources[0], commonSources[5], { title: "AI + Learning Differences: Designing a Future with No Boundaries", url: "https://padlet-uploads-usc1.storage.googleapis.com/5130909431/a79e69fceedd3f1c1233e7193cc5692f/AI_Learning_Differences_Designing_a_Future_with_No_Boundaries_Final__1_.pdf" }],
+  },
+  recurso: {
+    sections: [
+      {
+        title: "Como estudar este material",
+        paragraphs: [
+          {
+            text: "Use este recurso como complemento: anote o conceito principal, identifique um exemplo de uso da IA, registre um risco e pense em uma adaptação para estudantes com diferentes necessidades de acesso.",
+            refs: ["k12", "cast"],
+          },
+        ],
+      },
+      {
+        title: "Ligação com o tema",
+        paragraphs: [
+          {
+            text: "Materiais multimídia são úteis quando ajudam a tornar o tema mais claro, mas precisam de legenda, resumo, alternativa textual ou mediação para não criar novas barreiras.",
+            refs: ["cast"],
+          },
+        ],
+      },
+    ],
+  },
+};
+
+const detailArticles = {
+  "como-usar-este-guia": {
+    sections: [
+      {
+        title: "Ideia central",
+        paragraphs: [
+          {
+            text: "Este guia foi pensado para quem quer entender IA e educação inclusiva sem começar pela ferramenta. A pergunta principal é: que barreira impede o estudante de participar e aprender, e que tipo de apoio pode reduzir essa barreira?",
+            refs: ["lbi", "k12"],
+          },
+          {
+            text: "A pesquisa recente sobre IA inclusiva recomenda olhar para contexto, estratégia pedagógica e resultado de aprendizagem ao mesmo tempo. Isso evita tratar tecnologia como solução automática para problemas que também envolvem currículo, infraestrutura, formação e relações humanas.",
+            refs: ["k12"],
+          },
+        ],
+      },
+      {
+        title: "Como navegar",
+        paragraphs: [
+          {
+            text: "Comece pelos conceitos, avance pelas barreiras, veja exemplos de aplicação e termine no checklist. Em cada etapa, pergunte se a decisão aumenta acesso, participação, autonomia, pertencimento e aprendizagem.",
+            refs: ["stanford", "cast"],
+          },
+        ],
+      },
+    ],
+  },
+  "a-ia-aproxima-ou-afasta-a-educacao-inclusiva": {
+    sections: [
+      {
+        title: "A resposta depende do desenho",
+        paragraphs: [
+          {
+            text: "A IA pode aproximar a educação inclusiva quando adapta materiais, oferece explicações em diferentes formatos, apoia comunicação e ajuda professores a acompanhar necessidades individuais. Ela afasta quando exige acesso que parte dos estudantes não tem, quando usa dados sem transparência ou quando transforma diferenças em rótulos rígidos.",
+            refs: ["personalizacao", "k12", "unesco"],
+          },
+          {
+            text: "Uma revisão sobre IA inclusiva na educação básica mostra esse duplo potencial: currículos bem desenhados podem aumentar conhecimento, confiança, motivação, comunicação e colaboração; currículos mal planejados podem ampliar lacunas de oportunidade.",
+            refs: ["k12"],
+          },
+        ],
+      },
+      {
+        title: "Critério simples",
+        paragraphs: [
+          {
+            text: "Antes de usar uma ferramenta, formule uma frase objetiva: esta IA ajudará este estudante a fazer algo que hoje está bloqueado por uma barreira específica. Se a frase não fica clara, a adoção provavelmente ainda está imatura.",
+            refs: ["stanford"],
+          },
+        ],
+      },
+    ],
+  },
+  "educacao-inclusiva-e-equidade": {
+    sections: [
+      {
+        title: "Inclusão não é presença física",
+        paragraphs: [
+          {
+            text: "Educação inclusiva significa garantir acesso, permanência, participação e aprendizagem. A matrícula é apenas o começo; o ponto central é remover barreiras que impedem o estudante de compreender, se comunicar, interagir, demonstrar conhecimento e pertencer ao ambiente escolar.",
+            refs: ["lbi", "k12"],
+          },
+          {
+            text: "Equidade significa oferecer apoios diferentes para que oportunidades sejam justas. Dar o mesmo material, no mesmo ritmo e no mesmo formato para todos pode parecer igualitário, mas muitas vezes mantém a exclusão.",
+            refs: ["k12", "cast"],
+          },
+        ],
+      },
+      {
+        title: "O papel da identidade",
+        paragraphs: [
+          {
+            text: "A revisão K-12 destaca identidade e pertencimento como princípios de currículo inclusivo. Estudantes se engajam mais quando a aprendizagem conversa com sua cultura, sua comunidade, seus interesses e suas formas de expressão.",
+            refs: ["k12"],
+          },
+        ],
+      },
+    ],
+  },
+  "ia-acessibilidade-e-lbi": {
+    sections: [
+      {
+        title: "O que a IA pode fazer",
+        paragraphs: [
+          {
+            text: "IA é um conjunto de tecnologias que pode reconhecer padrões, gerar respostas, adaptar atividades e transformar formatos de informação. Na escola, isso pode aparecer em leitura em voz alta, legendas, simplificação de textos, organização de dados de aprendizagem e feedback personalizado.",
+            refs: ["personalizacao", "reader"],
+          },
+          {
+            text: "Quando usada para acessibilidade, a IA precisa fortalecer direitos previstos na LBI: eliminar barreiras, oferecer recursos adequados e garantir condições reais de aprendizagem.",
+            refs: ["lbi"],
+          },
+        ],
+      },
+      {
+        title: "Cuidado necessário",
+        paragraphs: [
+          {
+            text: "Se a ferramenta coleta dados sobre desempenho, deficiência, comunicação ou comportamento, a escola precisa definir finalidade, segurança, acesso às informações e supervisão humana. Dados sensíveis não podem virar atalho para vigilância ou estigmatização.",
+            refs: ["personalizacao", "unesco", "stanford"],
+          },
+        ],
+      },
+    ],
+  },
+  "barreiras-escolares": {
+    sections: [
+      {
+        title: "Barreiras comuns",
+        paragraphs: [
+          {
+            text: "As barreiras mais frequentes não estão apenas no estudante. Elas aparecem em materiais inacessíveis, plataformas difíceis de usar, falta de internet ou dispositivo, currículos pouco conectados à realidade, avaliações únicas e baixa articulação entre educação geral e educação especial.",
+            refs: ["k12", "stanford", "lbi"],
+          },
+          {
+            text: "A falta de formação docente também é uma barreira. Uma ferramenta adaptativa só ajuda quando o professor entende seus limites, interpreta os dados gerados e transforma essa informação em decisão pedagógica.",
+            refs: ["personalizacao", "stanford"],
+          },
+        ],
+      },
+      {
+        title: "Como diagnosticar",
+        paragraphs: [
+          {
+            text: "Pergunte onde a participação quebra: na leitura, na comunicação, no tempo de resposta, na compreensão da tarefa, na forma de avaliação, no acesso tecnológico ou na sensação de pertencimento. A IA só deve entrar depois dessa leitura do problema.",
+            refs: ["cast", "k12"],
+          },
+        ],
+      },
+    ],
+  },
+  "possibilidades-reais-da-ia": {
+    sections: [
+      {
+        title: "Usos com maior potencial",
+        paragraphs: [
+          {
+            text: "A IA pode apoiar leitura acessível, resumo de textos difíceis, geração de exemplos, feedback imediato, adaptação de ritmo, reconhecimento de fala, comunicação alternativa, tutoria personalizada e acompanhamento de progresso.",
+            refs: ["personalizacao", "stanford", "reader"],
+          },
+          {
+            text: "Esses usos são mais fortes quando seguem o Desenho Universal para a Aprendizagem: oferecer múltiplas formas de acessar informação, expressar conhecimento e se engajar com a atividade.",
+            refs: ["cast"],
+          },
+        ],
+      },
+      {
+        title: "O que não é promessa vazia",
+        paragraphs: [
+          {
+            text: "Promessa vazia é dizer que a IA personaliza tudo sem explicar para quem, com quais dados, em qual atividade e com qual resultado esperado. Possibilidade real é uma intervenção pequena, observável e ajustável.",
+            refs: ["k12", "unesco"],
+          },
+        ],
+      },
+    ],
+  },
+  "exemplos-de-aplicacao": {
+    sections: [
+      {
+        title: "Aplicações possíveis",
+        paragraphs: [
+          {
+            text: "Sistemas adaptativos podem ajustar nível de dificuldade e ritmo. Ferramentas de fala e linguagem natural podem apoiar estudantes com dificuldades de comunicação. Leitores inteligentes, reconhecimento de imagem e recursos de acessibilidade podem reduzir barreiras visuais, cognitivas e linguísticas.",
+            refs: ["personalizacao", "reader"],
+          },
+          {
+            text: "O relatório de Stanford também descreve ferramentas voltadas a planos individualizados, como apoio a famílias para compreender documentos complexos e apoio a professores para coordenar estratégias em salas diversas.",
+            refs: ["stanford"],
+          },
+        ],
+      },
+      {
+        title: "Exemplo de decisão",
+        paragraphs: [
+          {
+            text: "Se um estudante compreende oralmente, mas tem dificuldade com textos longos, a solução pode combinar resumo acessível, leitura em voz alta, glossário visual e avaliação por resposta oral. A IA entra como apoio ao acesso, não como substituta da mediação docente.",
+            refs: ["cast", "personalizacao"],
+          },
+        ],
+      },
+    ],
+  },
+  lbi: {
+    sections: [
+      {
+        title: "Direito como ponto de partida",
+        paragraphs: [
+          {
+            text: "A LBI afirma o direito da pessoa com deficiência à educação em sistema inclusivo, em todos os níveis, com aprendizagem ao longo da vida. Isso significa que a escola precisa garantir condições reais de desenvolvimento, não apenas acesso formal.",
+            refs: ["lbi"],
+          },
+          {
+            text: "Quando uma escola usa IA, a pergunta jurídica e pedagógica é a mesma: a tecnologia remove barreiras ou cria uma nova dependência inacessível? Se a ferramenta não é acessível, transparente ou útil para o estudante, ela não fortalece inclusão.",
+            refs: ["lbi", "unesco"],
+          },
+        ],
+      },
+      {
+        title: "Na prática",
+        paragraphs: [
+          {
+            text: "Uma decisão alinhada à LBI deve prever acessibilidade desde o início, alternativa para quem não consegue usar a ferramenta, proteção de dados e acompanhamento por profissionais responsáveis.",
+            refs: ["lbi", "personalizacao"],
+          },
+        ],
+      },
+    ],
+  },
+  "evidencias-de-pesquisa": {
+    sections: [
+      {
+        title: "O que os estudos indicam",
+        paragraphs: [
+          {
+            text: "A revisão K-12 analisou 17 estudos empíricos publicados entre 2013 e 2024. Os resultados foram organizados em quatro dimensões: cognitiva, afetiva, metacognitiva e social.",
+            refs: ["k12"],
+          },
+          {
+            text: "Entre os ganhos relatados estão conhecimento técnico, aprendizagem em áreas como matemática e ciências, confiança, motivação, interesse, autorregulação, comunicação e colaboração. Mesmo assim, a revisão alerta que nem todos os estudos medem resultados com o mesmo rigor.",
+            refs: ["k12"],
+          },
+        ],
+      },
+      {
+        title: "O que ainda falta",
+        paragraphs: [
+          {
+            text: "Ainda há lacunas em acesso, alinhamento curricular, consistência de avaliação e participação de grupos sub-representados. Por isso, usar IA na escola exige avaliação contínua, e não apenas entusiasmo inicial.",
+            refs: ["k12", "stanford"],
+          },
+        ],
+      },
+    ],
   },
   "como-a-ia-pode-ajudar": {
-    padlet: [
-      "O Padlet organiza apoios para estudantes, professores e famílias: leitura personalizada, suporte emocional supervisionado, tutoria adaptativa, comunicação assistiva, planos diferenciados e simplificação de documentos.",
-      "A ênfase é que a IA deve apoiar relações pedagógicas, não substituir escuta, mediação e responsabilidade docente.",
+    sections: [
+      {
+        title: "Estudantes",
+        paragraphs: [
+          {
+            text: "Para estudantes, a IA pode transformar textos longos em versões mais acessíveis, oferecer leitura em voz alta, sugerir exemplos, criar rotas de estudo no próprio ritmo e apoiar comunicação. Isso é especialmente relevante quando a barreira está no formato da informação, não na capacidade de aprender.",
+            refs: ["personalizacao", "reader", "cast"],
+          },
+        ],
+      },
+      {
+        title: "Professores e famílias",
+        paragraphs: [
+          {
+            text: "Para professores, a IA pode ajudar a adaptar planos, gerar alternativas de atividade, acompanhar dados formativos e preparar materiais em formatos diferentes. Para famílias, pode simplificar documentos educacionais e tornar informações sobre direitos, metas e reuniões mais compreensíveis.",
+            refs: ["stanford", "personalizacao"],
+          },
+        ],
+      },
     ],
-    research: [
-      "Evidências reunidas pela Microsoft sobre leitura mostram benefícios de recursos como espaçamento, linhas mais curtas, segmentação silábica e leitura em voz alta para diferentes perfis de leitores.",
-      "A revisão K-12 indica possíveis ganhos cognitivos, afetivos e sociais quando IA e tecnologia são integradas a estratégias inclusivas e objetivos claros.",
-    ],
-    questions: [
-      "Quem se beneficia diretamente desse apoio?",
-      "Há alternativa acessível para estudantes sem internet, dispositivo próprio ou familiaridade digital?",
-      "Que parte da decisão continua com professor, estudante e família?",
-    ],
-    sources: [commonSources[0], commonSources[1], commonSources[5], commonSources[7]],
   },
   "exemplos-praticos-de-ferramentas": {
-    padlet: [
-      "O Padlet cita ferramentas já existentes, como Microsoft Immersive Reader, Khanmigo, Alongside e ROAR.",
-      "Também cita propostas do Hackathon de Stanford: Empower IEP, FeelLink e Maestra.",
+    sections: [
+      {
+        title: "Tipos de ferramenta",
+        paragraphs: [
+          {
+            text: "Há ferramentas para leitura acessível, tutoria, prática guiada, análise de aprendizagem, comunicação, tradução, legendagem, organização de planos individualizados e adaptação de materiais. O valor não está no nome da ferramenta, mas na barreira que ela ajuda a reduzir.",
+            refs: ["personalizacao", "stanford"],
+          },
+          {
+            text: "Exemplos citados em pesquisas e relatórios incluem leitores imersivos, avaliações de leitura, ambientes de aprendizagem com análise de dados e protótipos para apoiar famílias e professores no processo de planos individualizados.",
+            refs: ["reader", "leaf", "stanford"],
+          },
+        ],
+      },
+      {
+        title: "Como escolher",
+        paragraphs: [
+          {
+            text: "A escolha deve considerar acessibilidade, idioma, custo, privacidade, explicabilidade, facilidade de uso, evidência de aprendizagem e possibilidade de adaptação ao contexto local.",
+            refs: ["k12", "unesco"],
+          },
+        ],
+      },
     ],
-    research: [
-      "Ferramentas de leitura inclusiva tendem a ser mais defensáveis quando combinam acessibilidade perceptiva, apoio linguístico e autonomia do estudante.",
-      "A revisão K-12 recomenda tecnologias acessíveis, atuais, conectadas ao cotidiano dos estudantes e alinhadas a objetivos pedagógicos mensuráveis.",
-    ],
-    questions: [
-      "A ferramenta é acessível, gratuita ou viável para a rede?",
-      "Quais dados ela coleta e quem pode acessá-los?",
-      "O professor recebeu formação para usar a ferramenta com intencionalidade inclusiva?",
-    ],
-    sources: [commonSources[0], commonSources[5], commonSources[7]],
   },
   "checklist-de-implementacao": {
-    padlet: [
-      "O checklist do Padlet orienta incluir pessoas com diferenças de aprendizagem no design, compensar participantes pelo conhecimento compartilhado, garantir acessibilidade desde o início e treinar professores.",
-      "Esse checklist funciona como filtro mínimo antes de levar uma solução de IA para a sala de aula.",
+    sections: [
+      {
+        title: "Antes de usar",
+        paragraphs: [
+          {
+            text: "Defina o problema pedagógico, escolha um objetivo observável e verifique se a ferramenta é acessível para os estudantes reais da turma. Sem isso, a IA vira uma novidade sem direção.",
+            refs: ["k12", "cast"],
+          },
+          {
+            text: "Verifique quem participa da decisão. O relatório de Stanford recomenda co-design com estudantes, famílias, educadores e pessoas com diferenças de aprendizagem, valorizando a experiência vivida como conhecimento técnico importante.",
+            refs: ["stanford"],
+          },
+        ],
+      },
+      {
+        title: "Durante e depois",
+        paragraphs: [
+          {
+            text: "Proteja dados, explique critérios de uso, acompanhe resultados, ofereça alternativa para quem não consegue usar a ferramenta e revise a prática com base em evidências de aprendizagem e participação.",
+            refs: ["personalizacao", "unesco", "k12"],
+          },
+        ],
+      },
     ],
-    research: [
-      "A UNESCO recomenda validação ética e pedagógica antes do uso educacional de IA, além de políticas para privacidade e segurança.",
-      "A revisão K-12 destaca design participativo, pertencimento, colaboração e ferramentas acessíveis como princípios de implementação inclusiva.",
-    ],
-    questions: [
-      "Pessoas impactadas participaram do desenho e da avaliação?",
-      "A acessibilidade foi planejada ou ficou para adaptação posterior?",
-      "Há formação docente e plano de acompanhamento?",
-    ],
-    sources: [commonSources[0], commonSources[2], commonSources[5]],
   },
-  "trilha-complementar": {
-    padlet: [
-      "O Padlet trabalho PI é um whiteboard complementar com percurso visual sobre Educação Inclusiva e IA.",
-      "Ele reúne objetivo da trilha, podcast, imagens, áudios e materiais multimídia que ajudam a transformar o tema em experiência exploratória.",
+  "mapa-de-estudo": {
+    sections: [
+      {
+        title: "Roteiro recomendado",
+        paragraphs: [
+          {
+            text: "Um bom estudo sobre IA inclusiva passa por cinco perguntas: o que é inclusão, quais barreiras existem, o que a IA consegue apoiar, quais riscos precisam ser controlados e como saber se a prática melhorou a aprendizagem.",
+            refs: ["k12", "stanford"],
+          },
+          {
+            text: "Esse roteiro evita começar por ferramentas isoladas. Primeiro vem a necessidade; depois a solução; por fim, a avaliação.",
+            refs: ["personalizacao"],
+          },
+        ],
+      },
     ],
-    research: [
-      "Pela lógica do DUA, um whiteboard multimídia pode apoiar múltiplas formas de representação e engajamento, desde que os recursos sejam acessíveis e tenham alternativa textual.",
-      "A revisão K-12 valoriza atividades abertas, colaborativas e conectadas à identidade dos estudantes.",
-    ],
-    questions: [
-      "Os elementos visuais têm texto alternativo ou descrição equivalente?",
-      "O percurso visual ajuda a organizar o raciocínio ou dispersa o foco?",
-      "Como estudantes com diferentes formas de acesso podem navegar pelo material?",
-    ],
-    sources: [commonSources[1], commonSources[3], commonSources[5]],
-  },
-  "objetivos-da-trilha-ia-e-educacao-inclusiva": {
-    padlet: [
-      "O vídeo do segundo Padlet apresenta os objetivos da trilha de IA e Educação Inclusiva.",
-      "Ele funciona como entrada multimídia para explicar por que o tema envolve barreiras, escolhas pedagógicas e responsabilidade.",
-    ],
-    research: [
-      "O DUA recomenda oferecer múltiplos meios de representação; vídeos podem apoiar compreensão quando são acompanhados de legenda, roteiro ou síntese textual.",
-      "A UNESCO reforça que recursos digitais precisam estar ligados a objetivos educacionais e avaliados quanto à adequação pedagógica.",
-    ],
-    questions: [
-      "O vídeo tem legenda ou alternativa textual?",
-      "O objetivo apresentado está conectado às atividades do painel?",
-      "Que aprendizagem o estudante deve demonstrar depois de assistir?",
-    ],
-    sources: [commonSources[1], commonSources[2], commonSources[3]],
   },
   "podcast-inclusao-ou-exclusao-algoritmica-na-escola": {
-    padlet: [
-      "O segundo Padlet inclui o podcast em vídeo Inclusão ou exclusão algorítmica na escola.",
-      "O tema amplia a discussão: a IA pode apoiar inclusão, mas algoritmos também podem reproduzir vieses, invisibilizar grupos e automatizar exclusões.",
+    sections: [
+      {
+        title: "O problema dos algoritmos",
+        paragraphs: [
+          {
+            text: "Algoritmos aprendem a partir de dados. Se os dados representam mal certos grupos, ou se a escola usa a ferramenta sem entender seus critérios, a IA pode recomendar caminhos injustos, invisibilizar necessidades ou reforçar expectativas baixas.",
+            refs: ["unesco", "stanford"],
+          },
+          {
+            text: "Discutir exclusão algorítmica é discutir poder: quem define os dados, quem revisa as respostas, quem pode contestar decisões e quem fica vulnerável quando a ferramenta erra.",
+            refs: ["unesco", "k12"],
+          },
+        ],
+      },
     ],
-    research: [
-      "A UNESCO trata inclusão, equidade, diversidade cultural e proteção de dados como dimensões centrais para regular e usar IA generativa em educação.",
-      "A revisão K-12 recomenda que currículo e tecnologia sejam culturalmente relevantes, acessíveis e conectados ao senso de pertencimento.",
-    ],
-    questions: [
-      "Que tipo de exclusão algorítmica pode ocorrer na escola?",
-      "Quem audita ou supervisiona as recomendações da IA?",
-      "Que dados de estudantes não deveriam ser usados?",
-    ],
-    sources: [commonSources[1], commonSources[2], commonSources[5]],
   },
   "inclusao-ou-exclusao-ia-na-educacao-inclusiva": {
-    padlet: [
-      "O episódio no Spotify, citado no segundo Padlet, debate benefícios e malefícios da IA na educação inclusiva.",
-      "Ele se conecta ao eixo crítico da trilha: a IA só aproxima a inclusão quando há responsabilidade pedagógica, acessibilidade e controle humano.",
+    sections: [
+      {
+        title: "Benefício e risco caminham juntos",
+        paragraphs: [
+          {
+            text: "A IA pode apoiar inclusão quando personaliza acesso e amplia autonomia. Mas pode gerar exclusão quando exige conectividade constante, coleta dados demais, não explica suas decisões ou entrega respostas inadequadas para estudantes com necessidades específicas.",
+            refs: ["k12", "personalizacao", "unesco"],
+          },
+          {
+            text: "A decisão responsável combina supervisão humana, acessibilidade, participação dos usuários e avaliação contínua.",
+            refs: ["stanford", "k12"],
+          },
+        ],
+      },
     ],
-    research: [
-      "A UNESCO alerta para adoção rápida de IA sem marcos claros de proteção e validação.",
-      "A literatura de IA inclusiva recomenda analisar tanto ganhos de engajamento quanto resultados de aprendizagem, evitando promessas sem evidência.",
+  },
+  "relatorio-ia-e-diferencas-de-aprendizagem": {
+    sections: [
+      {
+        title: "O que o relatório defende",
+        paragraphs: [
+          {
+            text: "O relatório de Stanford organiza o tema IA e diferenças de aprendizagem em frentes como co-design, aprendizagem nas bordas, planos individualizados, tecnologia assistiva, bem-estar socioemocional, formação docente e mundo do trabalho.",
+            refs: ["stanford"],
+          },
+          {
+            text: "A ideia mais importante é que pessoas com diferenças de aprendizagem não devem ser apenas usuárias finais. Elas precisam participar do desenho, dos testes e da avaliação das soluções.",
+            refs: ["stanford"],
+          },
+        ],
+      },
+      {
+        title: "Recomendação prática",
+        paragraphs: [
+          {
+            text: "Para escolas, o relatório sugere comunidades de prática, formação contínua, proteção de dados, pesquisa de longo prazo e integração cuidadosa da IA a planos personalizados.",
+            refs: ["stanford"],
+          },
+        ],
+      },
     ],
-    questions: [
-      "Quais benefícios são reais no contexto local?",
-      "Quais riscos aparecem para estudantes com deficiência ou baixa conectividade?",
-      "Como documentar resultados sem expor dados sensíveis?",
+  },
+  "revisao-ia-inclusiva-na-educacao-basica": {
+    sections: [
+      {
+        title: "Cinco princípios",
+        paragraphs: [
+          {
+            text: "A revisão sintetiza cinco princípios de currículos inclusivos de IA: identidade, tecnologia, design, desenvolvimento de conteúdo e senso de pertencimento. Em linguagem simples, a aula precisa conversar com quem o estudante é, usar tecnologia acessível, ter boas escolhas pedagógicas, apresentar conteúdo de forma flexível e criar ambiente onde o estudante se sinta parte.",
+            refs: ["k12"],
+          },
+          {
+            text: "O estudo também mostra que projetos conectados à comunidade e à cultura dos estudantes tendem a aumentar engajamento e participação.",
+            refs: ["k12"],
+          },
+        ],
+      },
+      {
+        title: "Resultados",
+        paragraphs: [
+          {
+            text: "Os estudos revisados relatam ganhos cognitivos, afetivos, metacognitivos e sociais. Isso inclui conhecimento, confiança, motivação, autorregulação, comunicação e colaboração.",
+            refs: ["k12"],
+          },
+        ],
+      },
     ],
-    sources: [commonSources[1], commonSources[2], commonSources[5]],
+  },
+  "a-arte-da-personalizacao-do-ensino": {
+    sections: [
+      {
+        title: "Personalização na educação especial",
+        paragraphs: [
+          {
+            text: "O artigo explica personalização como adaptação de conteúdo, estratégias e ritmo às necessidades individuais do estudante. Na educação especial, isso é central porque as barreiras e formas de apoio podem variar muito de uma pessoa para outra.",
+            refs: ["personalizacao"],
+          },
+          {
+            text: "A IA aparece como ferramenta para identificar padrões de aprendizagem, oferecer atividades personalizadas, dar feedback imediato, apoiar fala e linguagem natural e tornar conteúdos digitais mais acessíveis.",
+            refs: ["personalizacao"],
+          },
+        ],
+      },
+      {
+        title: "Limites éticos",
+        paragraphs: [
+          {
+            text: "O mesmo artigo alerta para privacidade dos dados, transparência dos algoritmos, disponibilidade de recursos tecnológicos, formação de professores e o fato de que IA não substitui cuidado e expertise humana.",
+            refs: ["personalizacao"],
+          },
+        ],
+      },
+    ],
   },
 };
 
-const resourceResearch = {
-  padlet: [
-    "Este material é uma fonte direta dos Padlets usados para montar o site e deve ser lido como referência do percurso original.",
-    "Ao consultar, compare o conteúdo do recurso com os princípios de acessibilidade, equidade, participação e aprendizagem.",
-  ],
-  video: [
-    "Vídeos ampliam representação e engajamento, mas precisam de legenda, descrição ou alternativa textual para não criar novas barreiras.",
-    "Use o recurso com objetivo de aprendizagem explícito e uma atividade de síntese ou discussão.",
-  ],
-  audio: [
-    "Áudios e podcasts favorecem acesso por escuta e debate, mas devem ter roteiro, resumo ou transcrição para estudantes que precisam de suporte visual/textual.",
-    "Esse formato é útil para discutir dilemas éticos, como inclusão algorítmica, supervisão humana e riscos de vieses.",
-  ],
-  pdf: [
-    "Artigos e relatórios ajudam a fundamentar decisões pedagógicas, especialmente quando trazem métodos, evidências, limitações e recomendações.",
-    "Ao usar PDF em sala, ofereça leitura acessível, resumo orientador e tempo para discussão dos principais achados.",
-  ],
+const resourceDetails = {
+  "video-objetivos-de-aprendizagem": {
+    sections: [
+      {
+        title: "Como usar vídeos introdutórios",
+        paragraphs: [
+          {
+            text: "Um vídeo de abertura deve ajudar o estudante a entender por que IA e inclusão são temas conectados. Depois de assistir, peça que a turma identifique uma barreira escolar e imagine um apoio tecnológico possível.",
+            refs: ["cast", "k12"],
+          },
+        ],
+      },
+    ],
+  },
+  "introducao-a-trilha-ia-900": {
+    sections: [
+      {
+        title: "Fundamentos antes da aplicação",
+        paragraphs: [
+          {
+            text: "Conceitos técnicos de IA ajudam a entender o vocabulário, mas não bastam para decidir uso educacional. Em inclusão, o conhecimento técnico precisa ser ligado a acessibilidade, equidade, dados e finalidade pedagógica.",
+            refs: ["unesco", "k12"],
+          },
+        ],
+      },
+    ],
+  },
+  "o-que-e-inteligencia-artificial": {
+    sections: [
+      {
+        title: "Explicação acessível",
+        paragraphs: [
+          {
+            text: "IA é tecnologia que encontra padrões e produz respostas a partir de dados. Na escola, ela pode sugerir caminhos de estudo, resumir informações ou adaptar formatos; ainda assim, suas respostas precisam ser conferidas por pessoas.",
+            refs: ["unesco", "personalizacao"],
+          },
+        ],
+      },
+    ],
+  },
+  "principios-basicos-do-aprendizado-de-maquina": {
+    sections: [
+      {
+        title: "Por que isso importa",
+        paragraphs: [
+          {
+            text: "Aprendizado de máquina depende de dados. Por isso, em educação inclusiva é essencial perguntar quais estudantes aparecem nesses dados, quais ficam de fora e como erros podem afetar oportunidades.",
+            refs: ["unesco", "stanford"],
+          },
+        ],
+      },
+    ],
+  },
+  "como-o-computador-processa-dados-e-midias": {
+    sections: [
+      {
+        title: "Dados viram decisões",
+        paragraphs: [
+          {
+            text: "Quando computadores processam textos, áudio, imagem e desempenho escolar, eles podem gerar apoios úteis. Mas também podem transformar informações sensíveis em classificações ruins se não houver finalidade clara, segurança e revisão humana.",
+            refs: ["unesco", "personalizacao"],
+          },
+        ],
+      },
+    ],
+  },
+  "caso-de-uso-i-aprendendo-um-idioma": {
+    sections: [
+      {
+        title: "Aprender idiomas com apoio",
+        paragraphs: [
+          {
+            text: "No aprendizado de idiomas, a IA pode oferecer prática individual, leitura em voz alta, correção formativa e explicações em níveis diferentes. Para ser inclusiva, precisa aceitar ritmos diversos e permitir múltiplas formas de resposta.",
+            refs: ["cast", "personalizacao"],
+          },
+        ],
+      },
+    ],
+  },
+  "caso-de-uso-ii-criando-uma-receita-culinaria": {
+    sections: [
+      {
+        title: "Tarefas do cotidiano",
+        paragraphs: [
+          {
+            text: "Atividades como criar uma receita mostram como IA pode apoiar planejamento, vocabulário, sequência de passos e comunicação. Esse tipo de tarefa fica mais inclusivo quando conecta conteúdo escolar à vida cotidiana.",
+            refs: ["k12", "cast"],
+          },
+        ],
+      },
+    ],
+  },
+  "cutscene-educacao-inclusiva": {
+    sections: [
+      {
+        title: "Narrativas ajudam a compreender",
+        paragraphs: [
+          {
+            text: "Recursos audiovisuais podem tornar conceitos de inclusão mais concretos. Para serem acessíveis, precisam de legenda, descrição, síntese textual e espaço para diferentes formas de participação.",
+            refs: ["cast"],
+          },
+        ],
+      },
+    ],
+  },
+  "podcast-ia-na-educacao-inclusiva": {
+    sections: [
+      {
+        title: "Escuta crítica",
+        paragraphs: [
+          {
+            text: "Podcasts funcionam bem para discutir dilemas: quem se beneficia, quem pode ficar de fora, quais dados são usados e qual decisão deve continuar nas mãos de pessoas. Ofereça também resumo textual para ampliar acesso.",
+            refs: ["cast", "unesco"],
+          },
+        ],
+      },
+    ],
+  },
+  "desenho-universal-para-a-aprendizagem": {
+    sections: [
+      {
+        title: "A lógica do DUA",
+        paragraphs: [
+          {
+            text: "O Desenho Universal para a Aprendizagem propõe planejar desde o início para a diversidade. Em vez de adaptar só depois que alguém fica excluído, a aula já nasce com múltiplas formas de acessar, participar e demonstrar conhecimento.",
+            refs: ["cast"],
+          },
+        ],
+      },
+    ],
+  },
+  "quadro-de-referencias": {
+    sections: [
+      {
+        title: "Como continuar estudando",
+        paragraphs: [
+          {
+            text: "Use quadros de referências como biblioteca, não como dependência do site. A leitura principal deve ser guiada pelas perguntas: que barreira existe, que apoio é possível, quais riscos aparecem e como medir aprendizagem.",
+            refs: ["k12", "stanford"],
+          },
+        ],
+      },
+    ],
+  },
 };
 
-const resourceDetailBySlug = {
-  "introducao-a-trilha-ia-900": { kind: "video" },
-  "o-que-e-inteligencia-artificial": { kind: "video" },
-  "principios-basicos-do-aprendizado-de-maquina": { kind: "video" },
-  "como-o-computador-processa-dados-e-midias": { kind: "video" },
-  "caso-de-uso-i-aprendendo-um-idioma": { kind: "video" },
-  "caso-de-uso-ii-criando-uma-receita-culinaria": { kind: "video" },
-  "cutscene-educacao-inclusiva": { kind: "video" },
-  "podcast-ia-na-educacao-inclusiva": { kind: "audio" },
-  "paper-de-stanford": { kind: "pdf", sources: [{ title: "AI + Learning Differences: Designing a Future with No Boundaries", url: "https://padlet-uploads-usc1.storage.googleapis.com/5130909431/a79e69fceedd3f1c1233e7193cc5692f/AI_Learning_Differences_Designing_a_Future_with_No_Boundaries_Final__1_.pdf" }] },
-  "ia-e-tecnologia-inclusivas-na-educacao-k-12": { kind: "pdf", sources: [commonSources[5]] },
-  "desenho-universal-para-a-aprendizagem": { kind: "video", sources: [commonSources[3]] },
-  "padlet-original": { kind: "padlet", sources: [commonSources[0]] },
-};
+function getItemSlug(item) {
+  return window.contentSlug(item);
+}
 
 function findContent() {
-  return window.siteContents.find((item) => window.contentSlug(item) === selectedSlug);
+  return window.siteContents.find((item) => getItemSlug(item) === selectedSlug);
 }
 
-function createList(items) {
-  const list = document.createElement("ul");
-  items.forEach((item) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = item;
-    list.append(listItem);
+function getArticle(item) {
+  const slug = getItemSlug(item);
+  return detailArticles[slug] || resourceDetails[slug] || defaultByType[item.type];
+}
+
+function collectRefs(article) {
+  const ordered = [];
+  article.sections.forEach((section) => {
+    section.paragraphs.forEach((paragraph) => {
+      (paragraph.refs || []).forEach((ref) => {
+        if (!ordered.includes(ref)) ordered.push(ref);
+      });
+    });
   });
-  return list;
+  return ordered;
 }
 
-function getSpecificDetail(item) {
-  const slug = window.contentSlug(item);
-  if (detailContent[slug]) return detailContent[slug];
+function createRefSup(refs, refIndex) {
+  const fragment = document.createDocumentFragment();
 
-  const resourceDetail = resourceDetailBySlug[slug];
-  if (!resourceDetail) {
-    return {
-      padlet: ["Este conteúdo foi organizado a partir dos Padlets usados como base do site."],
-      research: detailGuides[item.type],
-      questions: ["Como este conteúdo ajuda a remover barreiras de participação e aprendizagem?"],
-      sources: [commonSources[0], commonSources[1]],
-    };
-  }
+  refs.forEach((ref) => {
+    const number = refIndex.get(ref);
+    if (!number) return;
 
-  const kind = resourceDetail.kind;
-  return {
-    padlet: [
-      "Este recurso aparece nos materiais citados dos Padlets e amplia a trilha principal com vídeo, áudio, artigo, relatório ou referência complementar.",
-      item.text,
-    ],
-    research: resourceResearch[kind],
-    questions: [
-      "Qual ideia principal deste material se conecta à educação inclusiva?",
-      "Que evidência, exemplo ou cuidado ele acrescenta à trilha?",
-      "Como adaptar o recurso para estudantes com diferentes necessidades de acesso?",
-    ],
-    sources: resourceDetail.sources || [commonSources[0], commonSources[1]],
-  };
+    const sup = document.createElement("sup");
+    const link = document.createElement("a");
+    link.href = `#fonte-${number}`;
+    link.textContent = `[${number}]`;
+    sup.append(link);
+    fragment.append(" ", sup);
+  });
+
+  return fragment;
+}
+
+function appendArticleSection(section, refIndex) {
+  const heading = document.createElement("h2");
+  heading.textContent = section.title;
+  detailPanel.append(heading);
+
+  section.paragraphs.forEach((paragraph) => {
+    const text = document.createElement("p");
+    text.className = "detail-text";
+    text.append(paragraph.text, createRefSup(paragraph.refs || [], refIndex));
+    detailPanel.append(text);
+  });
 }
 
 function createRelatedList(currentItem) {
@@ -409,7 +782,7 @@ function createRelatedList(currentItem) {
 
   related.forEach((item) => {
     const link = document.createElement("a");
-    link.href = `detalhe.html?conteudo=${encodeURIComponent(window.contentSlug(item))}`;
+    link.href = `detalhe.html?conteudo=${encodeURIComponent(getItemSlug(item))}`;
     link.textContent = item.title;
     list.append(link);
   });
@@ -417,30 +790,30 @@ function createRelatedList(currentItem) {
   return list;
 }
 
-function appendSection(title, items) {
-  if (!items || items.length === 0) return;
+function appendFootnotes(refs) {
+  if (refs.length === 0) return;
 
   const heading = document.createElement("h2");
-  heading.textContent = title;
-  detailPanel.append(heading, createList(items));
-}
+  heading.textContent = "Fontes";
 
-function appendSources(sources) {
-  if (!sources || sources.length === 0) return;
+  const list = document.createElement("ol");
+  list.className = "footnotes";
 
-  const heading = document.createElement("h2");
-  heading.textContent = "Fontes e pesquisas";
+  refs.forEach((ref, index) => {
+    const source = sources[ref];
+    if (!source) return;
 
-  const list = document.createElement("div");
-  list.className = "source-list";
+    const item = document.createElement("li");
+    item.id = `fonte-${index + 1}`;
 
-  sources.forEach((source) => {
     const link = document.createElement("a");
     link.href = source.url;
     link.target = "_blank";
     link.rel = "noreferrer";
     link.textContent = source.title;
-    list.append(link);
+
+    item.append(link);
+    list.append(item);
   });
 
   detailPanel.append(heading, list);
@@ -466,6 +839,10 @@ function renderNotFound() {
 function renderDetail(item) {
   document.title = `${item.title} | IA e Educação Inclusiva`;
 
+  const article = getArticle(item);
+  const usedRefs = collectRefs(article);
+  const refIndex = new Map(usedRefs.map((ref, index) => [ref, index + 1]));
+
   const badge = document.createElement("span");
   badge.className = `card-type ${item.type}`;
   badge.textContent = window.typeLabels[item.type];
@@ -477,11 +854,17 @@ function renderDetail(item) {
   summary.className = "detail-summary";
   summary.textContent = item.text;
 
-  const guidanceTitle = document.createElement("h2");
-  guidanceTitle.textContent = "Como explorar";
+  detailPanel.append(badge, title, summary);
+  article.sections.forEach((section) => appendArticleSection(section, refIndex));
 
-  const guidance = createList(detailGuides[item.type]);
-  const specificDetail = getSpecificDetail(item);
+  const related = createRelatedList(item);
+  if (related) {
+    const relatedTitle = document.createElement("h2");
+    relatedTitle.textContent = "Continue explorando";
+    detailPanel.append(relatedTitle, related);
+  }
+
+  appendFootnotes(usedRefs);
 
   const actions = document.createElement("div");
   actions.className = "detail-actions";
@@ -498,24 +881,10 @@ function renderDetail(item) {
     externalLink.href = item.link;
     externalLink.target = "_blank";
     externalLink.rel = "noreferrer";
-    externalLink.textContent = "Abrir material original";
+    externalLink.textContent = "Abrir material";
     actions.append(externalLink);
   }
 
-  detailPanel.append(badge, title, summary);
-  appendSection("Textos dos Padlets", specificDetail.padlet);
-  appendSection("Artigos e pesquisas", specificDetail.research);
-  appendSection("Perguntas para aprofundar", specificDetail.questions);
-  detailPanel.append(guidanceTitle, guidance);
-
-  const related = createRelatedList(item);
-  if (related) {
-    const relatedTitle = document.createElement("h2");
-    relatedTitle.textContent = "Conteúdos relacionados";
-    detailPanel.append(relatedTitle, related);
-  }
-
-  appendSources(specificDetail.sources);
   detailPanel.append(actions);
 }
 
